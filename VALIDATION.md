@@ -11,6 +11,14 @@ Data: 22/10/2026.
 - Ambos os motores reabriram uma **nova aba offline** e converteram `−0,483 °C` em `−0,500 °H`, com classificação acima da faixa. Nenhuma leitura em localStorage ou sessionStorage; nenhum erro JavaScript durante os fluxos.
 - Layout sem rolagem horizontal em 320, 390, 768 e 1280 pixels CSS. Inspeção visual de capturas desktop e mobile.
 - **axe-core 4.14.0**: zero violações automáticas nas regras WCAG 2 A/AA, WCAG 2.1 AA e boas práticas, em dez cenários (390 e 1280 px; vazio, inválido, dentro, acima e abaixo da faixa, com instalação e referências abertas). Isso não substitui testes com leitores de tela reais.
+- Atualização real de service worker em servidor local de ensaio: uma segunda versão exibiu o aviso, preservou a leitura até clicar em Atualizar, recarregou duas abas abertas e removeu apenas o cache anterior do aplicativo. As fontes publicadas não foram alteradas para esse ensaio.
+
+## Publicação verificada
+
+- [Site em HTTPS](https://mrxandejp.github.io/conversor-Hortvet/), a partir de `main` → `/docs`.
+- [Build e deployment inicial concluídos com sucesso](https://github.com/mrxandejp/conversor-Hortvet/actions/runs/39846518159), código da aplicação no commit `aca0b4d`.
+- Os **12 arquivos públicos** retornaram conteúdo idêntico aos arquivos locais testados.
+- A suíte de navegador foi repetida no **endereço publicado**, em Chrome com perfil Pixel 7: conversão, interpretação, validação, cópia, navegação, tamanhos de tela e reabertura offline aprovados; nenhum erro JavaScript.
 
 Scripts reproduzíveis: `scripts/browser-checks.js` e `scripts/accessibility-checks.js`, executados via `playwright-cli --raw run-code --filename <arquivo>` em uma sessão aberta. O segundo requer o pacote axe-core extraído em `output/playwright/package/axe.min.js`:
 
