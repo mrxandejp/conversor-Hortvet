@@ -1,5 +1,5 @@
 // Bump VERSION whenever a published asset changes; keep HTML, logic and references together.
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 const PREFIX = `hortvet:${self.registration.scope}:`;
 const CACHE = `${PREFIX}${VERSION}`;
 const ASSETS = [
@@ -9,6 +9,23 @@ const ASSETS = [
   "./app.js",
   "./conversion.js",
   "./pwa.js",
+  "./records.js",
+  "./storage.js",
+  "./history.js",
+  "./reports.js",
+  "./report-assets.js",
+  "./report-pdf.js",
+  "./report-word.js",
+  "./vendor/autotable.js",
+  "./vendor/docx-LICENSE.txt",
+  "./vendor/docx.js",
+  "./vendor/fonts/Lato-Bold.ttf",
+  "./vendor/fonts/Lato-Regular.ttf",
+  "./vendor/fonts/OFL.txt",
+  "./vendor/jspdf-LICENSE.txt",
+  "./vendor/jspdf-autotable-LICENSE.txt",
+  "./vendor/jspdf.js",
+  "./vendor/versions.json",
   "./manifest.webmanifest",
   "./icons/mark.svg",
   "./icons/icon-192.png",

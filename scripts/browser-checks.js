@@ -96,6 +96,7 @@ async (page) => {
   report.push('Installation guidance and research references');
 
   const context = page.context();
+  const storedCount = await page.evaluate(async () => (await (await import('./storage.js')).listRecords()).length);
   await context.setOffline(true);
   try {
     const reopened = await context.newPage();
@@ -104,10 +105,10 @@ async (page) => {
     await reopened.getByRole('button', { name: 'Converter', exact: true }).click();
     check(await reopened.locator('#hortvet-value').textContent() === '−0,500', 'Offline reopen conversion');
     check(await reopened.locator('#result-panel').getAttribute('data-state') === 'above', 'Offline reopen interpretation');
-    check(await reopened.evaluate(() => localStorage.length === 0 && sessionStorage.length === 0), 'No measurement storage');
+    check(await reopened.evaluate(async expected => (await (await import('./storage.js')).listRecords()).length === expected, storedCount), 'Conversion does not save automatically or erase history');
     await reopened.close();
   } finally { await context.setOffline(false); }
-  report.push('New tab reopened and converted offline; no reading stored');
+  report.push('New tab reopened and converted offline; history preserved without automatically saving');
   check(errors.length === 0, `JavaScript errors: ${errors.join('; ')}`);
   return { browser, passed: report, errors };
 }

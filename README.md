@@ -15,8 +15,17 @@ O termômetro comum não fornece o índice crioscópico. O resultado não determ
 - **Android / Chrome:** menu ⋮ → Instalar app ou Adicionar à tela inicial.
 - **iPhone / Safari:** Compartilhar → Adicionar à Tela de Início; ativar Abrir como App da Web quando oferecido.
 - Aguarde **Pronto para usar offline** com internet antes do primeiro uso desconectado. O cache pode ser removido pelo navegador ou ao limpar os dados do site; nesse caso, abra novamente com internet.
-- Leituras ficam apenas na memória da página. Não há histórico, contas, analytics nem transmissão de medições. O GitHub Pages mantém seus próprios registros de acesso à hospedagem.
-- Uma nova versão é baixada quando há conexão. O aviso de atualização permite recarregar; a leitura atual é descartada. Outros separadores abertos também recarregam para manter código e referências consistentes.
+- Somente leituras incluídas em **Adicionar registro** ficam salvas, no IndexedDB do próprio navegador/aparelho. Não há contas, analytics, servidor de dados ou sincronização. Apagar os dados do navegador remove o histórico; ele também pode ser removido pelo navegador conforme suas políticas de armazenamento. Exporte os relatórios que deseja guardar. O GitHub Pages mantém seus próprios registros de acesso à hospedagem.
+- Uma nova versão é baixada quando há conexão. O aviso de atualização permite recarregar; a leitura atual não registrada é descartada, mas o histórico salvo permanece. Outros separadores abertos também recarregam para manter código e referências consistentes.
+
+## Histórico e relatórios (v1.1.0)
+
+1. Converta a leitura e toque em **Adicionar registro**. O horário é capturado ao converter, pelo relógio e fuso do aparelho. “Adicionado” só aparece depois da transação concluir. Uma nova conversão, mesmo com valor igual, pode ser adicionada novamente.
+2. Consulte a tabela em ordem cronológica. **Data inicial** e **Data final** são inclusivas e usam a data local original de cada registro. Sem datas, aparece todo o histórico. Os horários incluem o deslocamento UTC para identificar medições feitas em fusos diferentes.
+3. **Salvar PDF**, **Salvar Word (.docx)** e **Imprimir**, abaixo da tabela, usam apenas as linhas do período exibido. O PDF é gerado diretamente no navegador; o Word contém uma tabela editável. Os relatórios usam A4 retrato, cabeçalhos repetidos, unidades, status e nota de interpretação. Um link de download permanece disponível caso o navegador exija um novo toque.
+4. **Excluir** pede confirmação. **Apagar histórico** confirma a remoção de todos os registros, incluindo os ocultos pelo filtro. **Limpar** afeta somente a calculadora. Exportar ou imprimir preserva o histórico.
+
+A versão 1.0.0 não guardava medições: o histórico começa vazio. As novas medições são snapshots com identificador único, versão do formato e da regra, instante UTC, data/hora local, fuso e deslocamento UTC, valores decimais em texto e interpretação. Resultados anteriores não são recalculados em atualizações. As transações evitam duplicação por ID e perda de gravações entre abas. Alterações em outra aba são atualizadas via BroadcastChannel e ao retornar à página.
 
 ## Regras e precisão
 
@@ -31,18 +40,25 @@ O termômetro comum não fornece o índice crioscópico. O resultado não determ
 
 ## Desenvolvimento
 
-Sem dependências de produção ou etapa de build. Node.js 22+ para desenvolvimento e testes:
+Aplicação estática, sem servidor de dados e sem build obrigatório para publicar. Node.js 22+ para desenvolvimento e testes:
 
 ```sh
+npm ci --ignore-scripts
 npm test
 npm start
 ```
 
 Abra http://127.0.0.1:4173/conversor-Hortvet/. O servidor usa a mesma subpasta da publicação. Service workers precisam de HTTPS ou localhost; não testar a PWA por `file://`.
 
-`docs/` contém somente os arquivos públicos. `conversion.js` separa as regras da interface; `pwa.js` gerencia instalação e atualização; `sw.js` mantém um cache por versão e escopo, sem interferir em outros sites do mesmo domínio. Os testes cobrem cálculo, validação, fronteiras, cópia, cache, isolamento e manifesto/ícones.
+`docs/` contém somente os arquivos públicos. `conversion.js` separa as regras da interface; `pwa.js` gerencia instalação e atualização; `sw.js` mantém um cache por versão e escopo, sem interferir em outros sites do mesmo domínio. O módulo `records.js` define snapshots, filtros e o conjunto comum dos relatórios; `storage.js` cuida das transações IndexedDB; `history.js` apresenta a tabela; `reports.js`, `report-pdf.js` e `report-word.js` geram os formatos. Os testes cobrem cálculo, validação, fronteiras, snapshots, fuso, filtros, fontes, cache, isolamento e manifesto/ícones.
 
 Os PNGs de instalação são derivados do ícone vetorial local. Para regenerar no macOS: `swift scripts/render-icons.swift`. Os PNGs já estão versionados e não exigem Swift para executar o site.
+
+### Bibliotecas locais
+
+Versões fixadas: **jsPDF 4.2.1**, **AutoTable 5.0.9** e **docx 9.13.0**. Os bundles, licenças MIT e fontes Lato (SIL OFL 1.1) estão em `docs/vendor/`, com versões e SHA-256 em `versions.json`. A fonte regular e a negrito incorporadas ao PDF incluem `−`, `°` e acentos portugueses. Word e impressão usam Arial ou a substituta disponível no aparelho.
+
+Depois de `npm ci --ignore-scripts`, `npm run vendor` copia os bundles com as versões verificadas. As fontes são snapshots já versionados; não são buscadas em tempo de execução. Todo o conjunto de módulos, bibliotecas, fontes e licenças está no cache offline. As bibliotecas de relatório são carregadas ao exportar, para manter leve a abertura da calculadora.
 
 ### Publicação
 

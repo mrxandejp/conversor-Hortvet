@@ -1,0 +1,24 @@
+{
+  "libraries": {
+    "jspdf": "4.2.1",
+    "jspdf-autotable": "5.0.9",
+    "docx": "9.13.0"
+  },
+  "fonts": {
+    "family": "Lato",
+    "source": "https://github.com/google/fonts/tree/main/ofl/lato",
+    "license": "SIL OFL 1.1",
+    "note": "Static TTF snapshots included in this repository; SHA-256 pins the exact bytes."
+  },
+  "sha256": {
+    "jspdf.js": "e6551fcdc32f09d6853b2c5126d18d01d9447e0da618a41a11ebeee0f6c20d54",
+    "jspdf-LICENSE.txt": "dc388ec35ff463288cdde3588a36fd4ed12a45deff053243b37309acc9ef583b",
+    "autotable.js": "83dd8e5ae29436bd3d3ef4f4a915125b3951264994c25de0359d3fbd105abe15",
+    "jspdf-autotable-LICENSE.txt": "99a374e0385cf714d2faae5f6e02ec79217c6bcecec39bdb9e102091471b960a",
+    "docx.js": "1d926c20650e7cb307d77cac0dbd04c78f0ec3097fbae2a4e0e656019c7aaee1",
+    "docx-LICENSE.txt": "b5b2364c0c95a26b2a2399d7e706a61acac680be1d5b180b00592ee85830bffb",
+    "fonts/Lato-Regular.ttf": "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "fonts/Lato-Bold.ttf": "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1",
+    "fonts/OFL.txt": "74ba064d03f1f1c4a952da936c3eb71866c34404916734de3cae73b34357e59e"
+  }
+}

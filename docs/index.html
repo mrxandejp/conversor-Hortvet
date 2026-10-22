@@ -30,6 +30,7 @@
         >
       </a>
       <nav aria-label="Navegação principal">
+        <a href="#history">Histórico</a>
         <a href="#install">Como instalar <span aria-hidden="true">↗</span></a>
         <a href="#references">Referências</a>
       </nav>
@@ -139,6 +140,11 @@
                 classificação usa o Celsius informado, antes de arredondar.
               </p>
             </details>
+            <p id="conversion-time" class="conversion-time"></p>
+            <button id="add-record" class="primary" type="button" disabled>
+              Adicionar registro
+            </button>
+            <p id="save-feedback" class="copy-feedback" role="status"></p>
             <button id="copy-result" class="copy-button" type="button">
               <span aria-hidden="true">⧉</span> Copiar resultado
             </button>
@@ -196,6 +202,115 @@
         </p>
       </aside>
 
+      <section
+        id="history"
+        class="history-section"
+        aria-labelledby="history-heading"
+      >
+        <div class="history-heading-row">
+          <div>
+            <p class="eyebrow">SUAS MEDIÇÕES</p>
+            <h2 id="history-heading" tabindex="-1">Histórico de registros</h2>
+          </div>
+          <button
+            id="clear-history"
+            class="text-button danger-button"
+            type="button"
+            disabled
+          >
+            Apagar histórico
+          </button>
+        </div>
+        <p class="history-help">
+          Salvo apenas neste aparelho. Apagar os dados do navegador também
+          remove o histórico. Exporte os relatórios que deseja guardar.
+        </p>
+        <div
+          class="history-filters"
+          role="group"
+          aria-label="Filtrar registros por período"
+        >
+          <div>
+            <label for="date-start">Data inicial</label
+            ><input
+              id="date-start"
+              type="date"
+              aria-describedby="filter-help filter-error"
+            />
+          </div>
+          <div>
+            <label for="date-end">Data final</label
+            ><input
+              id="date-end"
+              type="date"
+              aria-describedby="filter-help filter-error"
+            />
+          </div>
+          <button id="reset-filter" class="text-button" type="button">
+            Ver todo o histórico
+          </button>
+        </div>
+        <p id="filter-help" class="history-help">
+          Datas inclusivas, pelo dia e fuso registrados na conversão. Sem datas,
+          todos os registros.
+        </p>
+        <p id="filter-error" class="field-error" role="status"></p>
+        <p id="history-error" class="field-error" role="status"></p>
+        <button id="retry-history" class="secondary" type="button" hidden>
+          Carregar histórico novamente
+        </button>
+        <p id="history-count" class="history-count" role="status"></p>
+        <p id="history-empty" class="history-empty">Carregando histórico…</p>
+        <table id="history-table" class="history-table" role="table" hidden>
+          <caption class="sr-only">
+            Medições em ordem cronológica, das mais antigas às mais recentes
+          </caption>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th id="history-time" scope="col" role="columnheader">
+                Data e hora
+              </th>
+              <th id="history-celsius" scope="col" role="columnheader">
+                Celsius (°C)
+              </th>
+              <th id="history-hortvet" scope="col" role="columnheader">
+                Hortvet (°H)
+              </th>
+              <th id="history-status" scope="col" role="columnheader">
+                Status
+              </th>
+              <th id="history-actions" scope="col" role="columnheader">
+                <span class="sr-only">Ações</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="history-body" role="rowgroup"></tbody>
+        </table>
+        <p id="history-feedback" class="copy-feedback" role="status"></p>
+        <div
+          class="report-actions"
+          role="group"
+          aria-label="Exportar os registros exibidos"
+        >
+          <button class="secondary" type="button" data-report="pdf" disabled>
+            Salvar PDF
+          </button>
+          <button class="secondary" type="button" data-report="docx" disabled>
+            Salvar Word (.docx)
+          </button>
+          <button
+            class="text-button"
+            type="button"
+            data-report="print"
+            disabled
+          >
+            Imprimir
+          </button>
+        </div>
+        <p id="report-feedback" class="copy-feedback" role="status"></p>
+        <a id="report-download" class="report-download" hidden></a>
+      </section>
+
       <section class="support-section" aria-label="Instalação e referências">
         <details id="install">
           <summary>
@@ -237,9 +352,11 @@
               </div>
             </div>
             <p>
-              As leituras não são armazenadas nem enviadas. Se você limpar os
-              dados do navegador, será necessário acessar com internet
-              novamente.
+              Somente as leituras incluídas em “Adicionar registro” são salvas,
+              no próprio aparelho. Não há envio de medições ou sincronização
+              entre aparelhos. O histórico e os relatórios funcionam offline
+              após o preparo inicial. Apagar os dados do navegador também apaga
+              o histórico e exige um novo acesso com internet.
             </p>
           </div>
         </details>
@@ -311,7 +428,10 @@
         </details>
       </section>
       <div class="update-notice" id="update-notice" hidden>
-        <p>Uma nova versão está pronta. Atualizar limpa a leitura atual.</p>
+        <p>
+          Uma nova versão está pronta. Atualizar preserva o histórico salvo e
+          limpa apenas a leitura atual não registrada.
+        </p>
         <button class="secondary" id="update-button" type="button">
           Atualizar agora
         </button>
@@ -321,7 +441,8 @@
       <span
         >Hortvet <span aria-hidden="true">·</span> Feito para simplificar a
         leitura.</span
-      ><span>v1.0.0</span>
+      ><span>v1.1.0</span>
     </footer>
+    <section id="print-report" aria-label="Relatório para impressão"></section>
   </body>
 </html>

@@ -99,7 +99,7 @@ test("precache includes every file required to reopen under a GitHub Pages subpa
   const sw = worker();
   await sw.lifecycle("install");
   const current = [...sw.stores.entries()].find(([name]) =>
-    name.endsWith(":1.0.0"),
+    name.endsWith(":1.1.0"),
   )[1];
   for (const url of current.keys()) {
     const path = url.slice(scope.length) || "index.html";
@@ -110,6 +110,18 @@ test("precache includes every file required to reopen under a GitHub Pages subpa
     "index.html",
     "conversion.js",
     "pwa.js",
+    "records.js",
+    "storage.js",
+    "history.js",
+    "reports.js",
+    "report-assets.js",
+    "report-pdf.js",
+    "report-word.js",
+    "vendor/jspdf.js",
+    "vendor/autotable.js",
+    "vendor/docx.js",
+    "vendor/fonts/Lato-Regular.ttf",
+    "vendor/fonts/Lato-Bold.ttf",
     "styles.css",
     "app.js",
     "manifest.webmanifest",

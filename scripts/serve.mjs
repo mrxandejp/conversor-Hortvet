@@ -10,6 +10,9 @@ const types = {
   ".css": "text/css",
   ".js": "text/javascript",
   ".webmanifest": "application/manifest+json",
+  ".ttf": "font/ttf",
+  ".json": "application/json",
+  ".txt": "text/plain; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
 };

@@ -1,14 +1,17 @@
 import { convert, resultText, FACTOR } from "./conversion.js";
 import { setupPwa } from "./pwa.js";
+import { setupHistory } from "./history.js";
 
 const $ = (id) => document.getElementById(id);
 const input = $("celsius");
 const form = $("conversion-form");
+const history = setupHistory();
 let currentResult = null;
 let announcementTimer;
 
 function clearResult() {
   currentResult = null;
+  history.setResult(null);
   clearTimeout(announcementTimer);
   $("result-panel").dataset.state = "empty";
   $("empty-result").hidden = false;
@@ -54,6 +57,7 @@ form.addEventListener("submit", (event) => {
     return;
   }
   const result = currentResult;
+  history.setResult(result);
   $("empty-result").hidden = true;
   $("completed-result").hidden = false;
   $("result-panel").dataset.state = result.status;
