@@ -28,7 +28,10 @@ Use perfis de teste isolados: `scripts/history-checks.js` limpa e preenche o ban
 
 ### Publicação 1.1.0
 
-Verificação do endereço público será registrada após o deployment.
+- [Deployment concluído](https://github.com/mrxandejp/conversor-Hortvet/actions/runs/39852128002), aplicação no commit `eb221d7`.
+- [Site público](https://mrxandejp.github.io/conversor-Hortvet/) com versão 1.1.0; **30 arquivos públicos** conferidos byte a byte contra os arquivos locais.
+- A suíte completa de histórico foi repetida no endereço público em Chrome com perfil **Pixel 7** e WebKit com perfil **iPhone 13**, sem erros JavaScript: gravação, filtros, falhas, duas abas, persistência, exportação offline e downloads PDF/DOCX de uma e várias páginas.
+- Os arquivos baixados do site público passaram novamente pela comparação de todas as células de PDF, Word e impressão. Nenhuma medição de teste foi enviada a servidor; os dados fictícios existem somente nos perfis isolados de automação.
 
 ### Aparelhos físicos — histórico e exportação pendentes
 

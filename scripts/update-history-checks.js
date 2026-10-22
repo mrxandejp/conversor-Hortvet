@@ -1,3 +1,4 @@
+// Keep this as a bare function expression (no trailing semicolon) for run-code.
 // Isolated update server on port 4174; POST /advance changes only the SW cache version.
 // Use a persistent Playwright profile to also exercise a full browser close/reopen.
 async (page) => {
@@ -83,4 +84,4 @@ async (page) => {
     window.updateHistoryResult = result;
   }, result);
   return result;
-};
+}

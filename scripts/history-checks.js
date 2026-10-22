@@ -1,3 +1,4 @@
+// Keep this as a bare function expression (no trailing semicolon) for run-code.
 // Run in an isolated Playwright CLI browser profile, never a user's live profile.
 async (page) => {
   const check = (condition, label) => {
@@ -422,4 +423,4 @@ async (page) => {
     { browser, passed, errors },
   );
   return { browser, passed, errors };
-};
+}
