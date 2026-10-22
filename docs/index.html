@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#17634c" />
+    <meta
+      name="description"
+      content="Converta Celsius para Hortvet e confira a faixa de referência do índice crioscópico do leite bovino cru refrigerado. Funciona offline."
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icons/mark.svg" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+    <title>Hortvet · Conversor de crioscopia</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#calculator">Ir para a calculadora</a>
+    <header class="site-header wrap">
+      <a class="brand" href="./" aria-label="Hortvet, início">
+        <img src="./icons/mark.svg" width="42" height="42" alt="" />
+        <span
+          >Hortvet<span class="brand-caption"
+            >CONVERSOR DE CRIOSCOPIA</span
+          ></span
+        >
+      </a>
+      <nav aria-label="Navegação principal">
+        <a href="#install">Como instalar <span aria-hidden="true">↗</span></a>
+        <a href="#references">Referências</a>
+      </nav>
+    </header>
+
+    <main class="wrap" id="calculator">
+      <div class="heading-row">
+        <div>
+          <p class="eyebrow">UMA LEITURA, MAIS CLAREZA</p>
+          <h1>Celsius para Hortvet</h1>
+          <p class="intro">Leite bovino cru refrigerado</p>
+        </div>
+        <p class="connection" id="offline-status" role="status">
+          <span class="status-dot" aria-hidden="true"></span
+          ><span id="offline-text">Preparando uso offline…</span>
+        </p>
+      </div>
+
+      <noscript
+        ><p class="notice">
+          Ative o JavaScript no navegador para usar a calculadora.
+        </p></noscript
+      >
+      <section class="calculator-grid" aria-label="Conversão e resultado">
+        <form id="conversion-form" novalidate>
+          <div class="step-label">
+            <span class="step-number">01</span> INFORME A LEITURA
+          </div>
+          <label for="celsius">Ponto de congelamento em °C</label>
+          <p id="input-help" class="field-help">
+            Use o valor negativo do crioscópio ou laudo.
+          </p>
+          <div class="input-row">
+            <input
+              id="celsius"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              maxlength="40"
+              placeholder="−0,524"
+              aria-describedby="input-help input-error"
+            />
+            <span class="input-unit" aria-hidden="true">°C</span>
+            <button
+              class="sign-button"
+              id="negative-sign"
+              type="button"
+              aria-label="Inserir sinal negativo"
+              title="Inserir sinal negativo"
+            >
+              −
+            </button>
+          </div>
+          <p id="input-error" class="field-error" aria-live="polite"></p>
+          <div class="form-actions">
+            <button class="primary" type="submit">
+              Converter <span aria-hidden="true">→</span>
+            </button>
+            <button class="text-button" type="reset">Limpar</button>
+          </div>
+          <p class="input-note">
+            Vírgula ou ponto decimal. O sinal negativo é necessário.
+          </p>
+          <div class="formula-note">
+            <span aria-hidden="true">ƒ</span>
+            <p>Conversão utilizada<strong>°H = °C × 1,03562</strong></p>
+          </div>
+        </form>
+
+        <div class="result-panel" id="result-panel" data-state="empty">
+          <div class="step-label">
+            <span class="step-number">02</span> RESULTADO EM HORTVET
+          </div>
+          <div id="empty-result">
+            <p class="result-value placeholder-value">—<span> °H</span></p>
+            <p class="empty-title">Sua leitura, convertida.</p>
+            <p class="muted">
+              Informe o valor em Celsius para ver a conversão e a faixa de
+              referência.
+            </p>
+          </div>
+          <div id="completed-result" hidden>
+            <p class="result-source" id="result-source"></p>
+            <p class="result-value">
+              <span id="hortvet-value"></span
+              ><span class="result-unit"> °H</span>
+            </p>
+            <div class="result-status">
+              <span
+                id="status-symbol"
+                class="result-symbol"
+                aria-hidden="true"
+              ></span>
+              <div>
+                <h2 id="status-title"></h2>
+                <p id="boundary-label" hidden></p>
+              </div>
+            </div>
+            <p id="status-description"></p>
+            <details class="calculation-details" id="calculation-details">
+              <summary>Ver cálculo</summary>
+              <p id="exact-calculation" class="exact-calculation"></p>
+              <p>
+                Resultado principal arredondado para três casas decimais. A
+                classificação usa o Celsius informado, antes de arredondar.
+              </p>
+            </details>
+            <button id="copy-result" class="copy-button" type="button">
+              <span aria-hidden="true">⧉</span> Copiar resultado
+            </button>
+            <p id="copy-feedback" class="copy-feedback" role="status"></p>
+            <div id="copy-fallback" hidden>
+              <label for="copy-text">Selecione e copie o texto:</label
+              ><textarea id="copy-text" readonly rows="6"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+      <p
+        class="sr-only"
+        id="result-announcement"
+        role="status"
+        aria-atomic="true"
+      ></p>
+
+      <section class="reference-range" aria-labelledby="range-heading">
+        <div class="range-heading">
+          <h2 id="range-heading">Onde a leitura se encontra</h2>
+          <span class="reference-tag">REFERÊNCIA EM °C · IN 76</span>
+        </div>
+        <div class="range-visual" aria-hidden="true">
+          <div class="range-marker" id="range-marker" hidden>
+            <span id="marker-label"></span><i></i>
+          </div>
+          <div class="range-track"><span></span><span></span><span></span></div>
+          <div class="range-ticks">
+            <span>−0,536 °C</span><span>−0,512 °C</span>
+          </div>
+          <div class="range-captions">
+            <span>Mais negativo</span><strong>Dentro da faixa</strong
+            ><span>Mais próximo de zero</span>
+          </div>
+        </div>
+        <p class="range-description">
+          Faixa de referência: <strong>−0,536 a −0,512 °C</strong>, incluindo os
+          limites. Equivalentes publicados: −0,555 a −0,530 °H.
+        </p>
+        <p class="precision-note">
+          A classificação usa o valor original em Celsius. Como as equivalências
+          entre escalas são aproximadas, o Hortvet exibido pode parecer dentro
+          da faixa mesmo quando o Celsius está fora, perto dos limites.
+        </p>
+      </section>
+
+      <aside class="interpretation-note" aria-label="Limite da interpretação">
+        <span class="info-icon" aria-hidden="true">i</span>
+        <p>
+          <strong>Uma referência para a crioscopia.</strong> Este resultado
+          isolado não determina qualidade microbiológica, acidez ou segurança
+          para consumo, nem comprova fraude. Resultados fora da faixa devem ser
+          investigados com o laboratório.
+        </p>
+      </aside>
+
+      <section class="support-section" aria-label="Instalação e referências">
+        <details id="install">
+          <summary>
+            <span
+              ><span class="support-icon" aria-hidden="true">↓</span> Tenha no
+              seu celular</span
+            ><span class="details-plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="details-content">
+            <p>
+              Abra este site com internet e aguarde a indicação “Pronto para
+              usar offline”. Depois, você pode reabrir e converter sem conexão,
+              enquanto os dados do site estiverem salvos no navegador.
+            </p>
+            <div class="install-columns">
+              <div>
+                <h3>Android</h3>
+                <p>
+                  No Chrome, abra o menu ⋮ e escolha
+                  <strong>Instalar app</strong> ou
+                  <strong>Adicionar à tela inicial</strong>.
+                </p>
+                <button
+                  class="secondary"
+                  id="install-button"
+                  type="button"
+                  hidden
+                >
+                  Instalar Hortvet
+                </button>
+              </div>
+              <div>
+                <h3>iPhone</h3>
+                <p>
+                  No Safari, toque em <strong>Compartilhar</strong> e em
+                  <strong>Adicionar à Tela de Início</strong>. Ative “Abrir como
+                  App da Web”, se aparecer, e toque em Adicionar.
+                </p>
+              </div>
+            </div>
+            <p>
+              As leituras não são armazenadas nem enviadas. Se você limpar os
+              dados do navegador, será necessário acessar com internet
+              novamente.
+            </p>
+          </div>
+        </details>
+        <details id="references">
+          <summary>
+            <span
+              ><span class="support-icon" aria-hidden="true">≡</span> Fórmula e
+              referências</span
+            ><span class="details-plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="details-content">
+            <p>
+              <strong>Aplicação:</strong> leite bovino cru refrigerado, pela
+              faixa federal geral. Esta calculadora não aplica padrões regionais
+              específicos nem referências para outras espécies ou produtos.
+            </p>
+            <ul>
+              <li>
+                <a
+                  href="https://www.gov.br/agricultura/pt-br/assuntos/inspecao/produtos-animal/legislacao/IN762018RTIQLeite.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >MAPA — IN 76/2018, art. 5º, IX (PDF)</a
+                >
+                <p>
+                  Índice crioscópico entre −0,530 e −0,555 °H, equivalentes a
+                  −0,512 e −0,536 °C, respectivamente.
+                </p>
+              </li>
+              <li>
+                <a
+                  href="https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1018827/1/Doc158leite.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Embrapa — Qualidade do leite cru, 2014, página 12 (PDF)</a
+                >
+                <p>
+                  Fonte do fator de conversão: °H = 1,03562 × °C. Os limites
+                  antigos citados nessa publicação não são usados aqui; a faixa
+                  adotada é a da IN 76.
+                </p>
+              </li>
+              <li>
+                <a
+                  href="https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/criacoes/gado_de_leite/pre-producao/qualidade-e-seguranca/qualidade/testes-de-qualidade/crioscopia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Embrapa — Crioscopia</a
+                >
+                <p>
+                  A adição de água aproxima o ponto de congelamento de zero. A
+                  calculadora apresenta uma hipótese de investigação, não uma
+                  conclusão de fraude.
+                </p>
+              </li>
+            </ul>
+            <p>
+              A medição deve vir de crioscópio ou laudo. A temperatura medida
+              com um termômetro comum não corresponde ao índice crioscópico. A
+              comparação numérica não incorpora incerteza de medição nem
+              substitui a avaliação do laboratório.
+            </p>
+            <p class="review-date">
+              Referências revisadas em
+              <time datetime="2026-10-22">22 de outubro de 2026</time>. Links
+              externos precisam de internet.
+            </p>
+          </div>
+        </details>
+      </section>
+      <div class="update-notice" id="update-notice" hidden>
+        <p>Uma nova versão está pronta. Atualizar limpa a leitura atual.</p>
+        <button class="secondary" id="update-button" type="button">
+          Atualizar agora
+        </button>
+      </div>
+    </main>
+    <footer class="wrap site-footer">
+      <span
+        >Hortvet <span aria-hidden="true">·</span> Feito para simplificar a
+        leitura.</span
+      ><span>v1.0.0</span>
+    </footer>
+  </body>
+</html>

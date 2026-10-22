@@ -1,0 +1,14 @@
+{
+  "name": "conversor-hortvet",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Conversor offline de Celsius para Hortvet para leite bovino cru refrigerado",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
